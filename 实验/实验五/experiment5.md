@@ -1,14 +1,14 @@
 # 实验五 Python数据结构与数据模型
 
-班级： 21计科1
+班级： 21计科3
 
-学号： 202302200000
+学号： 20210302307
 
-姓名： 张三
+姓名： 梁宇晨
 
-Github地址：<https://github.com/yourusername/python_course>
+Github地址：<https://github.com/zzldy4/python-homework>
 
-CodeWars地址：<https://www.codewars.com/users/yourusername>
+CodeWars地址：<https://www.codewars.com/users/zzldy>
 
 ---
 
@@ -32,7 +32,8 @@ CodeWars地址：<https://www.codewars.com/users/yourusername>
 
 ---
 
-#### 第一题：停止逆转我的单词
+#### 第一题：停止逆转我的单词 
+<span id="1"></span>
 
 难度： 6kyu
 
@@ -64,7 +65,7 @@ words = "hey fellow warrior".split()
 ---
 
 #### 第二题： 发现离群的数(Find The Parity Outlier)
-
+<span id="2"></span>
 难度：6kyu
 
 给你一个包含整数的数组（其长度至少为3，但可能非常大）。该数组要么完全由奇数组成，要么完全由偶数组成，除了一个整数N。请写一个方法，以该数组为参数，返回这个 "离群 "的N。
@@ -85,7 +86,7 @@ words = "hey fellow warrior".split()
 ---
 
 #### 第三题： 检测Pangram
-
+<span id="3"></span>
 难度：6kyu
 
 pangram是一个至少包含每个字母一次的句子。例如，"The quick brown fox jumps over the lazy dog "这个句子就是一个pangram，因为它至少使用了一次字母A-Z（大小写不相关）。
@@ -97,7 +98,7 @@ pangram是一个至少包含每个字母一次的句子。例如，"The quick br
 ---
 
 #### 第四题： 数独解决方案验证
-
+<span id="4"></span>
 难度：6kyu
 
 数独背景
@@ -112,7 +113,7 @@ pangram是一个至少包含每个字母一次的句子。例如，"The quick br
 ---
 
 #### 第五题： 疯狂的彩色三角形
-
+<span id="5"></span>
 难度： 2kyu
 
 一个彩色的三角形是由一排颜色组成的，每一排都是红色、绿色或蓝色。连续的几行，每一行都比上一行少一种颜色，是通过考虑前一行中的两个相接触的颜色而产生的。如果这些颜色是相同的，那么新的一行就使用相同的颜色。如果它们不同，则在新的一行中使用缺失的颜色。这个过程一直持续到最后一行，只有一种颜色被生成。
@@ -219,6 +220,151 @@ def add_binary(a,b):
     return bin(a+b)[2:]
 ```
 
+[第一题：](https://www.codewars.com/kata/5264d2b162488dc400000001)
+[点击跳转题目说明](#1)
+```python
+def spin_words(sentence):
+    lists=sentence.split()
+    ret=[] 
+    for list in lists:
+        if len(list)>=5:
+            ret.append(''.join(reversed(list)))
+        else:
+            ret.append(list)
+        ret.append(' ')
+    ret.pop()
+    return ''.join(ret)
+```
+[第二题：](https://www.codewars.com/kata/5526fc09a1bbd946250002dc)
+[点击跳转题目说明](#2)
+```python
+def find_outlier(arr):  
+    a_numbers = []
+    b_numbers = []
+    for num in arr:
+        if num % 2 == 0:
+            b_numbers.append(num)  
+        else:  
+            a_numbers.append(num)
+    if len(a_numbers) == 1:  
+        return a_numbers[0]  
+    elif len(b_numbers) == 1:  
+        return b_numbers[0]  
+    else:  
+        return None
+```
+[第三题：](https://www.codewars.com/kata/545cedaa9943f7fe7b000048)
+[点击跳转题目说明](#3)
+```python
+def is_pangram(s):
+    s=s.lower()
+    lists=['a','b','c','d','e','f','g','h','i','j','k','l',
+        'm','n','o','p','q','r','s','t','u','v','w','x','y','z']
+    for list in lists:
+        if list not in s:
+            return False
+    return True
+```
+[第四题：](https://www.codewars.com/kata/63d1bac72de941033dbf87ae)
+[点击跳转题目说明](#4)
+```python
+def validate_sudoku(board):
+    for i in range(9):  
+        if sorted(board[i]) != list(range(1, 10)):  
+            return False
+        
+        column = [row[i] for row in board]
+        if sorted(column) != list(range(1, 10)):
+            return False
+
+    for block_row in range(0, 9, 3):  
+        for block_col in range(0, 9, 3):  
+            block = [board[x][y] for x in range(block_row, block_row + 3) for y in range(block_col, block_col + 3)]  
+            if sorted(block) != list(range(1, 10)):  
+                return False
+
+    return True
+```
+[第五题：](https://www.codewars.com/kata/5a331ea7ee1aae8f24000175)
+[点击跳转题目说明](#5)
+```python
+def triangle(row):
+    color = {'GG': 'G', 'BB': 'B', 'RR': 'R', 'BR': 'G', 'BG': 'R', 'GB': 'R', 'GR': 'B', 'RG': 'B', 'RB': 'G'}
+    
+    if len(row) == 1:
+        return row
+    
+    new_row = ''
+    for i in range(len(row) - 1):
+        new_row += color[row[i:i+2]]
+    
+    return triangle(new_row)
+```
+- 第一题
+```Mermaid
+graph TD
+  A[输入句子] -->|分割为单词| B(遍历单词)
+  B -->|单词长度 >= 5| C{反转单词}
+  C -->|是| D[追加反转后的单词]
+  C -->|否| E[追加原始单词]
+  D --> F(下一个单词)
+  E --> F
+  F -->|结束单词| G[连接单词]
+  G -->|输出| H[生成的句子]
+```
+---
+- 第二题
+```Mermaid
+graph TD
+  A[输入数组] -->|遍历元素| B(检查奇偶性)
+  B -->|偶数| C{追加到偶数数组}
+  C -->|是| D[下一个元素]
+  C -->|否| E{追加到奇数数组}
+  E -->|是| D
+  E -->|否| F[判断奇数数组长度]
+  F -->|长度1| G[返回奇数数组元素]
+  F -->|长度不为1| H{判断偶数数组长度}
+  H -->|长度1| I[返回偶数数组元素]
+  H -->|长度不为1| J[返回空值]
+  I --> J
+  D -->|结束遍历| K[返回空值]
+```
+---
+- 第三题
+```Mermaid
+graph TD
+  A[输入字符串] -->|转换为小写| B(初始化字母列表)
+  B -->|遍历字母列表| C{检查字母是否在字符串中}
+  C -->|是| D[下一个字母]
+  C -->|否| E[返回False]
+  D -->|结束遍历| F[返回True]
+
+```
+---
+- 第四题
+```Mermaid
+graph TD
+  A[输入数独数组] -->|检查每行| B(检查行是否包含1到9的所有数字)
+  B -->|否| C[返回False]
+  B -->|是| D[检查每列]
+  D -->|否| C
+  D -->|是| E[检查每3x3块]
+  E -->|否| C
+  E -->|是| F[返回True]
+
+```
+---
+- 第五题
+```Mermaid
+graph TD
+  A[输入字符串] -->|长度为1| B[返回字符串]
+  A -->|长度不为1| C(循环遍历字符串)
+  C -->|判断颜色组合| D[追加颜色到新字符串]
+  D --> E[递归调用triangle]
+  E --> A
+
+```
+
 代码运行结果的文本可以直接粘贴在这里。
 
 **注意：不要使用截图，因为Markdown文档转换为Pdf格式后，截图会无法显示。**
@@ -228,10 +374,56 @@ def add_binary(a,b):
 请使用自己的语言并使用尽量简短代码示例回答下面的问题，这些问题将在实验检查时用于提问和答辩以及实际的操作。
 
 1. 集合（set）类型有什么特点？它和列表（list）类型有什么区别？
+
+特点：
+- 无序：集合中的元素没有固定的顺序。
+- 唯一性：集合中的元素是唯一的，不允许重复。
+- 可变性：可以添加或删除元素。
+
+区别：
+
+列表是有序的，可以包含重复元素；而集合是无序的，不包含重复元素。
+
 2. 集合（set）类型主要有那些操作？
+- 增加元素：add
+- 删除元素：remove, discard
+- 集合运算：并集(union), 交集(intersection), 差集(difference), 对称差集(symmetric_difference)等。
 3. 使用`*`操作符作用到列表上会产生什么效果？为什么不能使用`*`操作符作用到嵌套的列表上？使用简单的代码示例说明。
+1. *操作符在列表上重复元素，将列表中的元素重复指定的次数。
+2. 不能用于嵌套列表，因为*操作符只会复制对列表的引用，而不会创建新的嵌套列表。修改一个嵌套列表的元素会影响所有引用该嵌套列表的变量
+```python
+# 列表重复
+original_list = [1, 2, 3]
+repeated_list = original_list * 3
+print(repeated_list)  # 输出: [1, 2, 3, 1, 2, 3, 1, 2, 3]
+
+# 嵌套列表问题
+nested_list = [[0, 1]] * 3
+nested_list[0][0] = 99
+print(nested_list)  # 输出: [[99, 1], [99, 1], [99, 1]]
+
+```
 4. 总结列表,集合，字典的解析（comprehension）的使用方法。使用简单的代码示例说明。
 
+列表解析：
+```python
+Copy code
+# 创建平方数列表
+squares = [x**2 for x in range(5)]
+```
+集合解析：
+```python
+Copy code
+# 创建平方数集合
+square_set = {x**2 for x in range(5)}
+```
+字典解析：
+```python
+Copy code
+# 创建字典，键为数字，值为数字的平方
+square_dict = {x: x**2 for x in range(5)}
+```
 ## 实验总结
 
 总结一下这次实验你学习和使用到的知识，例如：编程工具的使用、数据结构、程序语言的语法、算法、编程技巧、编程思想。
+通过这次实验学习和巩固了对列表和字典的使用，同时也更加清楚这两者之间的区别。
