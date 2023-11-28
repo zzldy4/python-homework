@@ -8,8 +8,8 @@ class BulletTestCase(unittest.TestCase):
     def setUp(self):
         pygame.init()
         self.screen = pygame.display.set_mode((800, 600))
-        self.settings = Settings()  # 假设已创建一个Settings类来存储游戏设置
-        self.ai_game = AlienInvasion(self.screen, self.settings)  # 假设已创建一个AlienInvasion类作为游戏主程序
+        self.settings = Settings()
+        self.ai_game = AlienInvasion(self.screen, self.settings)
         self.bullet = Bullet(self.ai_game)
 
     def test_update_bullet_position(self):

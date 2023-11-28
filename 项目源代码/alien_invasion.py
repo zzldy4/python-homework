@@ -12,11 +12,9 @@ from button import Button
 from scoreboard import Scoreboard
 from stars import Stars
 class AlienInvasion:
-    """管理游戏资源和行为的类"""
     def __init__(self):
-        """初始化游戏并创建游戏资源"""
         pygame.init()
-        self.clock = pygame.time.Clock()#创建一个时钟，来控制帧率
+        self.clock = pygame.time.Clock()#控制帧率
         
         self.settings = Settings()
         
@@ -24,16 +22,14 @@ class AlienInvasion:
         
         pygame.display.set_caption("Alien Invasion")
         
-        #创建星星列表
+
         self.stars=pygame.sprite.Group()
         
-        # 创建定时器事件
+
         pygame.time.set_timer(pygame.USEREVENT + 1, 2000)  # 每2秒触发一次定时器
 
-        self.elapsed_time=0#计时器
-        
-        #创建存储游戏统计信息的实体,并创建计分牌        
-        #创建一个用于存储游戏统计信息的实例
+        self.elapsed_time=0
+
         self.stats=GameStats(self)
         self.sb=Scoreboard(self)
         
@@ -42,11 +38,10 @@ class AlienInvasion:
         self.aliens=pygame.sprite.Group()
         
         self._create_fleet()
-        #游戏启动后处于非活动状态
+
         self.game_active=False
-        
-        #创建一个Play按钮
-        self.play_button=Button(self,"Play")
+
+        self.play_button=Button(self, "start")
         
     def _ship_hit(self):
         """响应飞船和外星人的碰撞"""
@@ -60,20 +55,17 @@ class AlienInvasion:
             self.bullets.empty()
             self.aliens.empty()
             
-            #创建一个新的外星舰队，并将飞船放在屏幕底部的中央
+
             self._create_fleet()
             self.ship.center_ship()
             
             #暂停
             sleep(0.5)
-        else:#玩家的飞船用完后结束游戏
+        else:
             self.game_active=False
             pygame.mouse.set_visible(True)
     
     def _create_fleet(self):
-        """创建一个外星舰队"""
-        #创建一个外星人,再不断添加，直到没有空间添加外星人为止
-        #外星人的间距为外星人的宽度
         alien=Alien(self)
         alien_width,alien_height=alien.rect.size
         
